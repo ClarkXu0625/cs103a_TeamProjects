@@ -79,7 +79,7 @@ def gptdemo(member):
         <div style="border:thin solid black">{answer}</div>
         Here is the answer in "pre" mode:
         <pre style="border:thin solid black">{answer}</pre>
-        <a href={url_for('gptdemo')}> make another query</a>
+        <a href='/<member>'> make another query</a>
         '''
     else:
         return '''
