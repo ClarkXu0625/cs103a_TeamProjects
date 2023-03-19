@@ -26,7 +26,7 @@ app = Flask(__name__)
 gptAPI = GPT(os.environ.get('APIKEY'))
 
 # Set the secret key to some random bytes. Keep this really secret!
-app.secret_key = b'_5#y2L"F4Q789789uioujkkljkl...8z\n\xec]/'
+# app.secret_key = b'_5#y2L"F4Q789789uioujkkljkl...8z\n\xec]/'
 
 # @app.route('/')
 # def index():
@@ -42,12 +42,28 @@ app.secret_key = b'_5#y2L"F4Q789789uioujkkljkl...8z\n\xec]/'
 def index():
     ''' display a link to each team member's page '''
     return f'''
-        <h1>Team Members</h1>
+        <html style="font-family: Arial, Helvetica, sans-serif;">
+        <h1>COSI 103a Team 2</h1>
+
+        <figure>
+        <figcaption>Website Breakdown</figcaption>
+        <ul>
+
+        <li><a href="/about">About us</a></li>
+        <li><a href="/team">Team Biographies</a></li>
+
+        </ul>
+        </figure>
+
+        <figure>
+        <figcaption>Team Member GPT Prompts</figcaption>
         <ul>
         <li><a href="/EphraimZimmerman">Ephraim Zimmerman</a></li>
         <li><a href="/JohnXie">John Xie</a></li>
         <li><a href="/ClarkXu">Clark Xu</a></li>
         </ul>
+        </figure>
+        </html>
     '''
 # render_template("index.html")
 
@@ -94,6 +110,31 @@ def team():
         <p>Role 3</p>
     </body>
     </html>
+
+
+        <html style="font-family: Arial, Helvetica, sans-serif;">
+        <h1>COSI 103a Team 2</h1>
+
+        <figure>
+        <figcaption>Website Breakdown</figcaption>
+        <ul>
+
+        <li><a href="/about">About us</a></li>
+        <li><a href="/team">Team Biographies</a></li>
+
+        </ul>
+        </figure>
+
+        <figure>
+        <figcaption>Team Member GPT Prompts</figcaption>
+        <ul>
+        <li><a href="/EphraimZimmerman">Ephraim Zimmerman</a></li>
+        <li><a href="/JohnXie">John Xie</a></li>
+        <li><a href="/ClarkXu">Clark Xu</a></li>
+        </ul>
+        </figure>
+        </html>
+
     
     '''
 
@@ -113,7 +154,6 @@ def gptdemo(member):
         elif member == 'EphraimZimmerman':
             # modify here for your own method
             answer = gptAPI.generate_linkedin_response(prompt)
-
         else:
             answer = "Invalid member"
         return f'''
@@ -124,7 +164,7 @@ def gptdemo(member):
         <div style="border:thin solid black">{answer}</div>
         Here is the answer in "pre" mode:
         <pre style="border:thin solid black">{answer}</pre>
-        <a href='/{answer}'> make another query</a>
+        <a href='/{member}'> make another query</a>
         '''
     else:
         return '''
