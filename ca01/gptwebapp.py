@@ -41,7 +41,15 @@ app.secret_key = b'_5#y2L"F4Q789789uioujkkljkl...8z\n\xec]/'
 @app.route('/')
 def index():
     ''' display a link to each team member's page '''
-    return render_template('index.html')
+    return f'''
+        <h1>Team Members</h1>
+        <ul>
+        <li><a href="/EphraimZimmerman">Ephraim Zimmerman</a></li>
+        <li><a href="/JohnXie">John Xie</a></li>
+        <li><a href="/ClarkXu">Clark Xu</a></li>
+        </ul>
+    '''
+# render_template("index.html")
 
 
 @app.route('/about')
