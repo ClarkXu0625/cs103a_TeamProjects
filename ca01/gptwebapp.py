@@ -28,14 +28,14 @@ gptAPI = GPT(os.environ.get('APIKEY'))
 # Set the secret key to some random bytes. Keep this really secret!
 app.secret_key = b'_5#y2L"F4Q789789uioujkkljkl...8z\n\xec]/'
 
-@app.route('/')
-def index():
-    ''' display a link to the general query page '''
-    print('processing / route')
-    return f'''
-        <h1>GPT Demo</h1>
-        <a href="{url_for('gptdemo')}">Ask questions to GPT</a>
-    '''
+#@app.route('/')
+#def index():
+  #  ''' display a link to the general query page '''
+   # print('processing / route')
+  #  return f'''
+    #    <h1>GPT Demo</h1>
+   #     <a href="{url_for('gptdemo')}">Ask questions to GPT</a>
+   # '''
 
 
 @app.route('/')
@@ -56,7 +56,7 @@ def team():
     return render_template('team.html')
 
 
-@app.route('/gptdemo/<member>', methods=['GET', 'POST'])
+@app.route('/<member>', methods=['GET', 'POST'])
 def gptdemo(member):
     ''' handle a get request by sending a form 
         and a post request by returning the GPT response
@@ -67,12 +67,12 @@ def gptdemo(member):
             answer = gptAPI.get_summary(prompt)
         elif member == 'ClarkXu':
             answer = gptAPI.getResponse(prompt)#modify here for your own method
-        elif member == 'effie':
+        elif member == 'EphraimZimmerman':
             answer = gptAPI.getResponse(prompt)#modify here for your own method
         else:
             answer = "Invalid member"
         return f'''
-        <h1>GPT Demo</h1>
+        <h1>GPT Demo for {member}</h1>
         <pre style="bgcolor:yellow">{prompt}</pre>
         <hr>
         Here is the answer in text mode:
