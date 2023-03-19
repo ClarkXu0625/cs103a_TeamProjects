@@ -28,14 +28,14 @@ gptAPI = GPT(os.environ.get('APIKEY'))
 # Set the secret key to some random bytes. Keep this really secret!
 app.secret_key = b'_5#y2L"F4Q789789uioujkkljkl...8z\n\xec]/'
 
-#@app.route('/')
-#def index():
-  #  ''' display a link to the general query page '''
-   # print('processing / route')
-  #  return f'''
-    #    <h1>GPT Demo</h1>
-   #     <a href="{url_for('gptdemo')}">Ask questions to GPT</a>
-   # '''
+# @app.route('/')
+# def index():
+#  ''' display a link to the general query page '''
+# print('processing / route')
+#  return f'''
+#    <h1>GPT Demo</h1>
+#     <a href="{url_for('gptdemo')}">Ask questions to GPT</a>
+# '''
 
 
 @app.route('/')
@@ -55,13 +55,47 @@ def index():
 @app.route('/about')
 def about():
     ''' display information about the program '''
-    return render_template('about.html')
+
+    return f'''
+    <!DOCTYPE html>
+        <html>
+        <head>
+            <title>About Us</title>
+        </head>
+        <body>
+            <h1>About Us</h1>
+            <h4>Here is some information about our program and what it does.</h4>
+            <p>we design a webapp that interact with openAI</p>
+        </body>
+        </html>
+
+    '''
 
 
 @app.route('/team')
 def team():
     ''' display a page with information about the team '''
-    return render_template('team.html')
+    return f'''
+    
+    <!doctype html>
+    <html>
+    <head>
+        <title>Team Page</title>
+    </head>
+    <body>
+        <h1>Our Team</h1>
+        <h2>John Xie</h2>
+        <p>I've initialize the project, such create all folders,files, and basic layout. I also finish my own page.</p>
+        
+        <h2>Ephraim Zimmerman</h2>
+        <p>Role 2</p>
+        
+        <h2>Clark Xu</h2>
+        <p>Role 3</p>
+    </body>
+    </html>
+    
+    '''
 
 
 @app.route('/<member>', methods=['GET', 'POST'])
@@ -74,9 +108,12 @@ def gptdemo(member):
         if member == 'JohnXie':
             answer = gptAPI.get_summary(prompt)
         elif member == 'ClarkXu':
-            answer = gptAPI.getResponse(prompt)#modify here for your own method
+            # modify here for your own method
+            answer = gptAPI.getResponse(prompt)
         elif member == 'EphraimZimmerman':
-            answer = gptAPI.getResponse(prompt)#modify here for your own method
+            # modify here for your own method
+            answer = gptAPI.generate_linkedin_response(prompt)
+
         else:
             answer = "Invalid member"
         return f'''
@@ -87,7 +124,7 @@ def gptdemo(member):
         <div style="border:thin solid black">{answer}</div>
         Here is the answer in "pre" mode:
         <pre style="border:thin solid black">{answer}</pre>
-        <a href='/<member>'> make another query</a>
+        <a href='/{answer}'> make another query</a>
         '''
     else:
         return '''
@@ -100,6 +137,6 @@ def gptdemo(member):
         '''
 
 
-if __name__=='__main__':
+if __name__ == '__main__':
     # run the code on port 5001, MacOS uses port 5000 for its own service :(
-    app.run(debug=True,port=5001)
+    app.run(debug=True, port=5001)
