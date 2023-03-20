@@ -128,7 +128,7 @@ def gptdemo(member):
     description = None
     john_description = ""
     ephraim_description = "Enter what you do for work, and we will give you  bullet points you can put on your resume/LinkedIn!"
-    clark_description = ""
+    clark_description = "Rewrite the prompt in 10th grade readability"
 
     if member == "EphraimZimmerman":
         description = ephraim_description
