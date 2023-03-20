@@ -81,7 +81,12 @@ def about():
         <body>
             <h1>About Us</h1>
             <h4>Here is some information about our program and what it does.</h4>
-            <p>we design a webapp that interact with openAI</p>
+            <p>we design a webapp that interact with openAI.
+            Each of our team member designed a function to help you get response in specific scenario
+                <li><a>Ephraim Zimmerman: bullets for resume, could used in LinkedIn</a></li>
+                <li><a>John Xie: generate a summary from gpt </a></li>
+                <li><a>Clark Xu: rewrite the prompt in 10th grade readability when you read complex papers or articles</a></li>
+            </p>
         </body>
         </html>
 
