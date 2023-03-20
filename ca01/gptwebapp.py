@@ -22,8 +22,10 @@ from flask import request, redirect, url_for, Flask, render_template
 from gpt import GPT
 import os
 
+
 app = Flask(__name__)
 gptAPI = GPT(os.environ.get('APIKEY'))
+#gptAPI = GPT("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")
 
 # Set the secret key to some random bytes. Keep this really secret!
 # app.secret_key = b'_5#y2L"F4Q789789uioujkkljkl...8z\n\xec]/'
@@ -126,7 +128,7 @@ def gptdemo(member):
     '''
     
     description = None
-    john_description = ""
+    john_description = "enter article or a piece of text, then it will return a summary of it."
     ephraim_description = "Enter what you do for work, and we will give you  bullet points you can put on your resume/LinkedIn!"
     clark_description = "Rewrite the prompt in 10th grade readability"
 

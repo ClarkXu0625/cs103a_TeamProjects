@@ -18,7 +18,7 @@ On Windows:
 % python gpt.py
 '''
 import openai
-
+openai.api_key = "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"
 
 class GPT():
     ''' make queries to gpt from a given API '''
@@ -47,10 +47,9 @@ class GPT():
 
     def get_summary(self, text, length=100):#method by John, generate a summary from gpt.
         ''' Generate a summary of a long article or text '''
-        prompt = "Summarize the following text:\n\n" + text + "\n\nSummary:"
+        prompt = "Summarize the following text:\n\n" + text
         summary = self.getResponse(prompt)
         # Extract the summary from the response
-        summary = summary.split("Summary:")[1].strip()[:length]
         return summary
     
 
@@ -68,10 +67,11 @@ if __name__=='__main__':
     '''
     '''
     import os
+    g = GPT("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")
 
     # print(g.getResponse("what does openai's GPT stand for?"))
     # text = "Blockchain technology is a distributed ledger system that allows for secure and transparent transactions between parties (Swan, 2015). Initially created to support Bitcoin, the first cryptocurrency, it has since expanded to various use cases, from financial services to supply chain management. Ethereum, unlike Bitcoin, was designed to support smart contracts and decentralized applications, making it a popular platform for developers. However, Ethereum, like other blockchain networks, faces scalability challenges, and Layer 2 scaling solutions have been developed to address this issue. One key innovation that has been enabled by blockchain technology is the concept of smart contracts, which are self-executing contracts with the terms of the agreement written directly into code (Buterin, 2014)."
     # print(g.get_summary(text))
 
     summary = "I am a teaching assistant for Introduction to Economics and Brandeis University with course ID ECON10a. I grade exams, essays, and homework assignments, and also help people out in general when needed. I also help the professor with lesson plans.  "
-    print(g.generate_linkedin_response(summary))
+    print(g.get_summary(summary))
