@@ -60,7 +60,7 @@ class GPT():
         prompt = "Generate a series of bullet points for LinkedIn from this job description:\n\n" + input + "\n Separate each bullet by a line-break and expand on details, but limit it to 4-5 bullets. "
         return self.getResponse(prompt)
     
-    def rewrite_tenth_grade_readability(self, input) ->str:
+    def rewrite_tenth_grade_readability(self, input) ->str: # Written by Clark, rewrite the prompt in 10th grade readability
         prompt = "Hi GPT, can you help me rewrite the following promt in tenth grade readability:\n\n" + input
         return self.getResponse(prompt)
 
