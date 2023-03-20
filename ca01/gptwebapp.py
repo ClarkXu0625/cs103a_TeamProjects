@@ -150,7 +150,7 @@ def gptdemo(member):
             answer = gptAPI.get_summary(prompt)
         elif member == 'ClarkXu':
             # modify here for your own method
-            answer = gptAPI.getResponse(prompt)
+            answer = gptAPI.rewrite_tenth_grade_readability(prompt)
         elif member == 'EphraimZimmerman':
             # modify here for your own method
             answer = gptAPI.generate_linkedin_response(prompt)
