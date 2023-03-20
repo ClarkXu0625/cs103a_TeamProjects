@@ -112,7 +112,7 @@ def team():
         <p>As a short introduction, I am a sophomore majoring in Computer Science! I stylized the HTML pages and improved on the files linked throughout the site. Also fixed various bugs having to do with loading the HTML and connecting ChatGPT with our site.  </p>
         
         <h2>Clark Xu</h2>
-        <p>Role 3</p>
+        <p>I wrote the 'About us' HTML page and styled it. I also wrote my function page for reformating text readability.</p>
     </body>
     </html>
     
