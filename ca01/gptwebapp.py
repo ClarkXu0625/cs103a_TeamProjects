@@ -94,7 +94,7 @@ def team():
     return f'''
     
     <!doctype html>
-    <html>
+        <html style="font-family: Arial, Helvetica, sans-serif;">
     <head>
         <title>Team Page</title>
     </head>
@@ -104,37 +104,12 @@ def team():
         <p>I've initialize the project, such create all folders,files, and basic layout. I also finish my own page.</p>
         
         <h2>Ephraim Zimmerman</h2>
-        <p>Role 2</p>
+        <p>I stylized the HTML pages and improved on the files linked throughout the site. Also fixed various bugs having to do with loading the HTML and connecting ChatGPT with our site.  </p>
         
         <h2>Clark Xu</h2>
         <p>Role 3</p>
     </body>
     </html>
-
-
-        <html style="font-family: Arial, Helvetica, sans-serif;">
-        <h1>COSI 103a Team 2</h1>
-
-        <figure>
-        <figcaption>Website Breakdown</figcaption>
-        <ul>
-
-        <li><a href="/about">About us</a></li>
-        <li><a href="/team">Team Biographies</a></li>
-
-        </ul>
-        </figure>
-
-        <figure>
-        <figcaption>Team Member GPT Prompts</figcaption>
-        <ul>
-        <li><a href="/EphraimZimmerman">Ephraim Zimmerman</a></li>
-        <li><a href="/JohnXie">John Xie</a></li>
-        <li><a href="/ClarkXu">Clark Xu</a></li>
-        </ul>
-        </figure>
-        </html>
-
     
     '''
 
