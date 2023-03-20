@@ -74,16 +74,16 @@ def about():
 
     return f'''
     <!DOCTYPE html>
-        <html>
+        <html style="font-family: Arial, Helvetica, sans-serif;">
         <head>
             <title>About Us</title>
         </head>
         <body>
             <h1>About Us</h1>
             <h4>Here is some information about our program and what it does.</h4>
-            <p>we design a webapp that interact with openAI.
+            <p>We have designed a webapp that interacts with the OpenAI API.
             Each of our team member designed a function to help you get response in specific scenario
-                <li><a>Ephraim Zimmerman: bullets for resume, could used in LinkedIn</a></li>
+                <li><a>Ephraim Zimmerman: bullets for resume, could be used for LinkedIn</a></li>
                 <li><a>John Xie: generate a summary from gpt </a></li>
                 <li><a>Clark Xu: rewrite the prompt in 10th grade readability when you read complex papers or articles</a></li>
             </p>
@@ -109,7 +109,7 @@ def team():
         <p>I've initialize the project, such create all folders,files, and basic layout. I also finish my own page.</p>
         
         <h2>Ephraim Zimmerman</h2>
-        <p>I stylized the HTML pages and improved on the files linked throughout the site. Also fixed various bugs having to do with loading the HTML and connecting ChatGPT with our site.  </p>
+        <p>As a short introduction, I am a sophomore majoring in Computer Science! I stylized the HTML pages and improved on the files linked throughout the site. Also fixed various bugs having to do with loading the HTML and connecting ChatGPT with our site.  </p>
         
         <h2>Clark Xu</h2>
         <p>Role 3</p>
@@ -124,19 +124,42 @@ def gptdemo(member):
     ''' handle a get request by sending a form 
         and a post request by returning the GPT response
     '''
+    
+    description = None
+    john_description = ""
+    ephraim_description = "Enter what you do for work, and we will give you  bullet points you can put on your resume/LinkedIn!"
+    clark_description = ""
+
+    if member == "EphraimZimmerman":
+        description = ephraim_description
+    elif member == "JohnXie":
+        description = john_description
+    elif member == "ClarkXu":
+        description = clark_description
+    else:
+        description = "Invalid member! Please go back and try again."
+
+
     if request.method == 'POST':
         prompt = request.form['prompt']
         if member == 'JohnXie':
+            description = ""
             answer = gptAPI.get_summary(prompt)
         elif member == 'ClarkXu':
             # modify here for your own method
+            description = ""
+
             answer = gptAPI.rewrite_tenth_grade_readability(prompt)
         elif member == 'EphraimZimmerman':
             # modify here for your own method
+            description = "Hello!"
             answer = gptAPI.generate_linkedin_response(prompt)
         else:
             answer = "Invalid member"
         return f'''
+
+    <html style="font-family: Arial, Helvetica, sans-serif;">
+
         <h1>GPT Demo for {member}</h1>
         <pre style="bgcolor:yellow">{prompt}</pre>
         <hr>
@@ -145,15 +168,24 @@ def gptdemo(member):
         Here is the answer in "pre" mode:
         <pre style="border:thin solid black">{answer}</pre>
         <a href='/{member}'> make another query</a>
+                    </html>
+
         '''
     else:
-        return '''
-        <h1>GPT Demo App</h1>
-        Enter your query below
+        return f'''
+        
+        <html style="font-family: Arial, Helvetica, sans-serif;">
+
+        <h1>GPT Demo for {member}</h1>
+        <i>{description}</i>
+        <br></br>
         <form method="post">
-            <textarea name="prompt"></textarea>
-            <p><input type=submit value="get response">
+            <textarea style= 'width:50%; height:10%' name="prompt"></textarea>
+            <p><input type=submit value="Get Response">
+            <p>It may take up to 30 seconds to get a response! </p>
         </form>
+            </html>
+
         '''
 
 
