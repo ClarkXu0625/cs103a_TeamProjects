@@ -5,7 +5,9 @@ import sys
 
 
 def print_menu():
-    """Menu of commands."""
+    """Menu of commands.
+    Ephraim Zimmerman
+    """
     print(
         '''
 =======================================
@@ -29,7 +31,9 @@ def print_menu():
     )
 
 def main():
-    """Main function."""
+    """Main function.
+    Ephraim Zimmerman
+    """
     print()
     print("Enter your database filename. If the file does not exist, a new one will be  created.")
     filename = input("filename >> ")
