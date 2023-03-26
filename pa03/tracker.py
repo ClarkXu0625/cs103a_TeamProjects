@@ -7,7 +7,7 @@ from transaction import Transaction
 
 def print_menu():
     """Menu of commands.
-    Ephraim Zimmerman
+    Ephraim Zimmerman, edit by Clark Xu
     """
     print(
         '''
@@ -77,7 +77,7 @@ def main():
             # add transaction
             elif args[0] == "add_transaction":
                 transaction.add_transaction(args[2], args[1], args[3], ''.join(map(str, args[4:])))
-                print("Added transaction.")
+                print("Transaction added.")
 
             # delete transaction
             elif args[0] == "delete_transaction":
@@ -121,7 +121,8 @@ def main():
                 print("Unknown command")
 
 def print_error(given, required):
-    '''print error message when the number of arguments isn't compatable'''
+    ''' Print error message when the number of arguments isn't compatable.
+    Written by Clark Xu'''
     argument_error = "Type <help> to get list of arguments"
     print(f"Argument not compatiable, {given} argument(s) given but {required} required")
     print(argument_error)
