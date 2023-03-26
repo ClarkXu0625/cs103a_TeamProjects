@@ -1,7 +1,8 @@
-# Create a file tracker.py which offers the user the following options and makes calls to the Transaction class to update the database.
+''' Create a file tracker.py which offers the user the following
+ options and makes calls to the Transaction class to update the database.'''
 
-from transaction import Transaction
 import sys
+from transaction import Transaction
 
 
 def print_menu():
@@ -11,21 +12,21 @@ def print_menu():
     print(
         '''
 =======================================
-           TRANSACTION MENU           
-  Type any of the following commands. 
-                                     
-  1. show_categories                 
-  2. add_category <category>          
-  3. modify_category <category> <modified category name> 
-  4. show_transactions                
+           TRANSACTION MENU
+  Type any of the following commands.
+
+  1. show_categories
+  2. add_category <category>
+  3. modify_category <category> <modified category name>
+  4. show_transactions
   5. [date is YYYY-MM-DD] add_transaction <category> <trans. amount> <date> <description>
-  6. delete_transaction <transaction id> 
-  7. summarize_transactions_date   
-  8. summarize_transactions_month  
-  9. summarize_transactions_year   
-  10. summarize_transactions_category 
+  6. delete_transaction <transaction id>
+  7. summarize_transactions_date
+  8. summarize_transactions_month
+  9. summarize_transactions_year
+  10. summarize_transactions_category
   11. help
-  12. reselect_file <file_path> 
+  12. reselect_file <file_path>
   13. quit
 
 =======================================
@@ -34,50 +35,40 @@ def print_menu():
 
 def main():
     """Main function.
-    Ephraim Zimmerman
-    Clark Xu
+    Written by Ephraim Zimmerman, Clark Xu
     """
     print()
     print("Enter your database filename. If the file does not exist, a new one will be created.")
     filename = input("filename >>> ")
-    argument_error = "Type <help> to get list of arguments"
     transaction = Transaction(filename)
     if len(sys.argv) == 1:
         print_menu()
         args = []
-        while True:           
+        while True:
             command = input(">>> ")
             args = command.split(" ")
             given = len(args)-1     # number of arguements given
 
             # quit
-            if args[0] == "quit":
-                break
-            
-            elif command.strip()=="help":
+            if command.strip()=="help":
                 print_menu()
-            
+
             # add category
             elif args[0] == "add_category":
                 if len(args) == 2:
                     transaction.add_category(args[1])
                     print("Added category: ", args[1])
                 else:
-                    required = 2
-                    print(f"Argument not compatiable, {given} argument(s) given but {required} required")
-                    print(argument_error)
-
+                    print_error(given, 2)
             # modify category
             elif args[0] == "modify_category":
                 if len(args) == 3:
                     transaction.add_category(args[1])
-                    print("Added category: ", args[1])                    
+                    print("Added category: ", args[1])
                     transaction.modify_category(args[1], args[2])
                     print("Modified category:", args[1], "->", args[2])
-                else:                    
-                    required = 1
-                    print(f"Argument not compatiable, {given} argument(s) given but {required} required")
-                    print(argument_error)
+                else:
+                    print_error(given, 1)
 
             # show transaction
             elif args[0] == "show_transactions":
@@ -93,11 +84,9 @@ def main():
                 if len(args) == 2:
                     print(transaction.delete_transaction(args[1]))
                 else:
-                    required = 1
-                    print(f"Argument not compatiable, {given} argument(s) given but {required} required")
-                    print(argument_error)
+                    print_error(given, 1)
 
-            # summarize by date            
+            # summarize by date
             elif args[0] == "summarize_transactions_date":
                 print(transaction.summarize_by_date())
 
@@ -105,11 +94,11 @@ def main():
             elif args[0] == "summarize_transactions_month":
                 print(transaction.summarize_by_month())
 
-            # summarize by month                
+            # summarize by month
             elif args[0] == "summarize_transactions_year":
                 print(transaction.summarize_by_year())
 
-            # print categories                
+            # print categories
             elif args[0] == "show_categories":
                 print("categories:")
                 print(transaction.get_categories())
@@ -122,12 +111,19 @@ def main():
                 if len(args) == 2:
                     transaction = Transaction(args[1])
                 else:
-                    required = 1
-                    print(f"Argument not compatiable, {given} argument(s) given but {required} required")
-                    print(argument_error)
-              
+                    print_error(given, 1)
+
+            elif command.strip() == 'quit':
+                break
+
             # otherwise unknown command
             elif command.strip()!="":
                 print("Unknown command")
+
+def print_error(given, required):
+    '''print error message when the number of arguments isn't compatable'''
+    argument_error = "Type <help> to get list of arguments"
+    print(f"Argument not compatiable, {given} argument(s) given but {required} required")
+    print(argument_error)
 
 main()
