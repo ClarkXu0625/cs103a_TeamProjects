@@ -24,7 +24,9 @@ def print_menu():
   8. summarize_transactions_month  
   9. summarize_transactions_year   
   10. summarize_transactions_category 
-  11. print_commands 
+  11. help
+  12. reselect_file <file_path> 
+  13. quit
 
 =======================================
 '''
@@ -33,45 +35,99 @@ def print_menu():
 def main():
     """Main function.
     Ephraim Zimmerman
+    Clark Xu
     """
     print()
-    print("Enter your database filename. If the file does not exist, a new one will be  created.")
-    filename = input("filename >> ")
+    print("Enter your database filename. If the file does not exist, a new one will be created.")
+    filename = input("filename >>> ")
+    argument_error = "Type <help> to get list of arguments"
     transaction = Transaction(filename)
     if len(sys.argv) == 1:
         print_menu()
         args = []
-        while args!=[""]:
-            args = input("command >> ").split(" ")
+        while True:           
+            command = input(">>> ")
+            args = command.split(" ")
+            given = len(args)-1     # number of arguements given
+
+            # quit
             if args[0] == "quit":
-                    break
+                break
+            
+            elif command.strip()=="help":
+                print_menu()
+            
+            # add category
             elif args[0] == "add_category":
+                if len(args) == 2:
                     transaction.add_category(args[1])
                     print("Added category: ", args[1])
+                else:
+                    required = 2
+                    print(f"Argument not compatiable, {given} argument(s) given but {required} required")
+                    print(argument_error)
+
+            # modify category
             elif args[0] == "modify_category":
+                if len(args) == 3:
+                    transaction.add_category(args[1])
+                    print("Added category: ", args[1])                    
                     transaction.modify_category(args[1], args[2])
                     print("Modified category:", args[1], "->", args[2])
+                else:                    
+                    required = 1
+                    print(f"Argument not compatiable, {given} argument(s) given but {required} required")
+                    print(argument_error)
+
+            # show transaction
             elif args[0] == "show_transactions":
-                    print(transaction.get_transactions())
+                print(transaction.get_transactions())
+
+            # add transaction
             elif args[0] == "add_transaction":
-                    transaction.add_transaction(args[2], args[1], args[3], ''.join(map(str, args[4:])))
-                    print("Added transaction.")
+                transaction.add_transaction(args[2], args[1], args[3], ''.join(map(str, args[4:])))
+                print("Added transaction.")
+
+            # delete transaction
             elif args[0] == "delete_transaction":
+                if len(args) == 2:
                     print(transaction.delete_transaction(args[1]))
+                else:
+                    required = 1
+                    print(f"Argument not compatiable, {given} argument(s) given but {required} required")
+                    print(argument_error)
+
+            # summarize by date            
             elif args[0] == "summarize_transactions_date":
-                    print(transaction.summarize_by_date())
+                print(transaction.summarize_by_date())
+
+            # summarize by month
             elif args[0] == "summarize_transactions_month":
-                    print(transaction.summarize_by_month())
+                print(transaction.summarize_by_month())
+
+            # summarize by month                
             elif args[0] == "summarize_transactions_year":
-                    print(transaction.summarize_by_year())
+                print(transaction.summarize_by_year())
+
+            # print categories                
             elif args[0] == "show_categories":
-                    print("categories:")
-                    print(transaction.get_categories())
+                print("categories:")
+                print(transaction.get_categories())
+
+            # summarize transaction by categories
             elif args[0] == "summarize_transactions_category":
-                    print(transaction.summarize_by_category())
-            elif args[0] == "print_commands":
-                    print_menu()
-            else:
+                print(transaction.summarize_by_category())
+
+            elif args[0] == "reselect_file":
+                if len(args) == 2:
+                    transaction = Transaction(args[1])
+                else:
+                    required = 1
+                    print(f"Argument not compatiable, {given} argument(s) given but {required} required")
+                    print(argument_error)
+              
+            # otherwise unknown command
+            elif command.strip()!="":
                 print("Unknown command")
 
 main()
