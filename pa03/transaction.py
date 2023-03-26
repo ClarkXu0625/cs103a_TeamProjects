@@ -12,7 +12,7 @@ class Transaction:
 
     def __init__(self, filename):
         """
-        intiate the file
+        initiate the file
         :param filename:
         """
         self.conn = sqlite3.connect(filename)
