@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generate Paragraph</title>
+</head>
+<body>
+    <h1>Generate a Paragraph</h1>
+    <form action="/generate-paragraph" method="post">
+        <label for="topic">Enter a topic:</label>
+        <input type="text" name="topic" id="topic" required>
+        <button type="submit">Generate</button>
+    </form>
+
+    <% if (previousResponses && previousResponses.length > 0) { %>
+        <h2>Your Previous Responses</h2>
+        <ul>
+            <% previousResponses.forEach(response => { %>
+                <li>
+                    <strong>Prompt:</strong> <%= response.prompt %> <br>
+                    <strong>Input:</strong> <%= response.input %> <br>
+                    <strong>Output:</strong> <%= response.output %>
+                </li>
+            <% }) %>
+        </ul>
+    <% } %>
+</body>
+</html>

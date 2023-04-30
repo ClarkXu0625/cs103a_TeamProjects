@@ -1,14 +1,16 @@
 const GPTModel = require('../models/GPT');
 const express = require('express');
 const router = express.Router();
-const openai = require('openai');
+const { Configuration, OpenAIApi } = require("openai");
 
-openai.apiKey = 'your_openai_api_key';
+const configuration = new Configuration({
+  apiKey: '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',
+});
+const openai = new OpenAIApi(configuration);
 
 router.get('/generate-paragraph', async (req, res) => {
   try {
     const previousResponses = await GPTModel.find({ userId: req.user._id }); // Assuming 'req.user' contains the logged-in user information
-
     res.render('generate-paragraph', { previousResponses });
   } catch (error) {
     console.error(error);
@@ -20,16 +22,18 @@ router.post('/generate-paragraph', async (req, res) => {
   const topic = req.body.topic;
 
   try {
-    const result = await openai.Completion.create({
-      engine: 'text-davinci-002',
-      prompt: `Write a paragraph about ${topic}`,
-      max_tokens: 100,
+    console.log('Sending request to OpenAI API...');
+    const result = await openai.createChatCompletion({
+      model: "text-davinci-003",
+      //prompt: `Write a paragraph about ${topic}`,
+      prompt: 'Write a paragraph about spring water',
+      max_tokens: 1024,
       n: 1,
       stop: null,
       temperature: 0.7,
     });
 
-    const generatedParagraph = result;
+    const generatedParagraph = result.choices[0].text;
 
     // Save the user response to the database
     const gptResponse = new GPTModel({
@@ -47,3 +51,4 @@ router.post('/generate-paragraph', async (req, res) => {
     res.status(500).send('Error generating paragraph. Please try again later.');
   }
 });
+module.exports = router;
