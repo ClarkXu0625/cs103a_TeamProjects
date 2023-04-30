@@ -2,49 +2,45 @@ const express = require('express');
 const axios = require('axios');
 const GPTModel = require('../models/GPT');
 const router = express.Router();
+const baseURL = "you key";
+const apiKey = "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";
 
 const chatGPT = async (inputText, userId) => {
-    // Check if the input already exists in the database
-  const existingEntry = await GPTModel.findOne({ input: inputText, userId });
-  if (existingEntry) {
-    // If it exists, return the stored output
-    return existingEntry.output;
-  }
-  
-    // If it doesn't exist, make a request to the ChatGPT API
-    const apiKey = process.env.CHATGPT_API_KEY;
+    
     const instance = axios.create({
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${apiKey}`
-      }
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${apiKey}`
+        }
     });
-  
+
     const payload = {
-      // Your payload specific to the ChatGPT API you're using
-    };
-  
+        prompt: inputText,
+        max_tokens: 150,
+        temperature: 0.7,
+        top_p: 1,
+        frequency_penalty: 0,
+        presence_penalty: 0
+      };
+
     try {
-      const response = await instance.post('https://api.openai.com/v1/engines/davinci-codex/completions', payload);
-      output = response.data.choices[0].text;
+        const response = await instance.post(baseURL, payload);
+        output = response.data.choices[0].text;
     } catch (error) {
-      console.error('Error calling ChatGPT API:', error);
-      output = 'Sorry, an error occurred while processing your request.';
+        console.error('Error calling ChatGPT API:', error);
+        output = 'Sorry, an error occurred while processing your request.';
     }
   
+    // Save the output to the database
+    const newEntry = new GPTModel({
+        prompt: 'ChatGPT',
+        input: inputText,
+        output,
+        userId,
+    });
+    await newEntry.save();
 
-  
-
-  // Save the output to the database
-  const newEntry = new GPTModel({
-    prompt: 'ChatGPT',
-    input: inputText,
-    output,
-    userId,
-  });
-  await newEntry.save();
-
-  return output;
+    return output;
 };
 
 router.get('/chat2', (req, res)=> {
@@ -52,10 +48,11 @@ router.get('/chat2', (req, res)=> {
 })
 
 router.post('/chat2', async (req, res) => {
-  const inputText = req.body.inputText;
-  const userId = req.user._id;
-  const response = await chatGPT(inputText, userId);
-  res.send(response);
+    console.log(req.body.inputText)
+    const inputText = req.body.inputText;
+    const userId = req.user._id;
+    const response = await chatGPT(inputText, userId);
+    res.send(response);
 });
 
 module.exports = router;
