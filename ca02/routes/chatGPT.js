@@ -4,7 +4,7 @@ const router = express.Router();
 const { Configuration, OpenAIApi } = require("openai");
 
 const configuration = new Configuration({
-  apiKey: 'api key',
+  apiKey: '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',
 });
 const openai = new OpenAIApi(configuration);
 
@@ -23,7 +23,7 @@ router.post('/generate-paragraph', async (req, res) => {
 
   try {
     console.log('Sending request to OpenAI API...');
-    const result = await openai.createChatCompletion({
+    const result = await openai.createCompletion({
       model: "text-davinci-003",
       //prompt: `Write a paragraph about ${topic}`,
       prompt: 'Write a paragraph about spring water',

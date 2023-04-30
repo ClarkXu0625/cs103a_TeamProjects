@@ -3,7 +3,7 @@ const axios = require('axios');
 const GPTModel = require('../models/GPT');
 const router = express.Router();
 const baseURL = "you key";
-const apiKey = "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";
+const apiKey = "";
 
 const chatGPT = async (inputText, userId) => {
     
