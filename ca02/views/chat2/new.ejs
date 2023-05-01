@@ -1,0 +1,15 @@
+<body>
+    <h1>This is the second chat page</h1>
+
+    <h1>Chat with ChatGPT</h1>
+    <form id="chatForm" method="post" action="/chat2">
+        <label for="inputPrompt">Enter your Prompt:</label>
+        <input type="text" name="inputPrompt" id="inputPrompt" placeholder="Leave blank if no prompt"><br>
+
+        <label for="inputText">Enter your message:</label>        
+        <input type="text" name="inputText" id="inputText" required>
+        <br><button type="submit">Send</button>
+    </form>
+    <div id="response" class="response"></div>
+
+</body>

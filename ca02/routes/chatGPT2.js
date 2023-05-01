@@ -1,97 +1,61 @@
-const express = require('express');
-const axios = require('axios');
 const GPTModel = require('../models/GPT');
+const express = require('express');
 const router = express.Router();
-const baseURL = "you key";
-const apiKey = "";
+const { Configuration, OpenAIApi } = require("openai");
 
+const configuration = new Configuration({
+  apiKey: '',
+});
+const openai = new OpenAIApi(configuration);
 
-/*const chatGPT = async (inputText, userId) => {
+router.get('/chat2', async (req, res) => {
+  try {
+    const previousResponses = await GPTModel.find({ userId: req.user._id });
+    res.render("chat2/new");
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Error fetching previous responses. Please try again later.');
+  }
+});
 
-    const instance = axios.create({
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${apiKey}`
-        }
-    });
-
-    const payload = {
-        prompt: inputText,
-        max_tokens: 150,
-        temperature: 0.7,
-        top_p: 1,
-        frequency_penalty: 0,
-        presence_penalty: 0
-      };
-
-    try {
-        const response = await instance.post(baseURL, payload);
-        output = response.data.choices[0].text;
-    } catch (error) {
-        console.error('Error calling ChatGPT API:', error);
-        output = 'Sorry, an error occurred while processing your request.';
-    }
-
-    // Save the output to the database
-    const newEntry = new GPTModel({
-        prompt: 'ChatGPT',
-        input: inputText,
-        output,
-        userId,
-    });
-    await newEntry.save();
-
-    return output;
-};*/
-
-
-const generateResponse = async (prompt) => {
-    const apiKey = "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"; // Replace with your valid API key
-    const baseURL = 'https://api.openai.com/v1/engines/davinci-codex/completions';
-
-    // Set up the payload for the GPT-3 API
-    const payload = {
-      prompt: prompt,
-      max_tokens: 150,
-      temperature: 0.7,
-      top_p: 1,
-      frequency_penalty: 0,
-      presence_penalty: 0,
-    };
-
-    try {
-      const response = await fetch(baseURL, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${apiKey}`,
-        },
-        body: JSON.stringify(payload),
-      });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      const data = await response.json();
-      const output = data.choices[0].text;
-      return output;
-    } catch (error) {
-      console.error('Error calling GPT-3 API:', error);
-      return 'Sorry, an error occurred while processing your request.';
-    }
-  };
-
-router.get('/chat2', (req, res)=> {
-    res.render("chat2")
-})
-
+// Get the prompt and input message from new.ejs
+// Sending message to GPT to generate output
+// Save the output into database to call later.
 router.post('/chat2', async (req, res) => {
-    console.log(req.body.inputText)
-    const inputText = req.body.inputText;
-    const userId = req.user._id;
-    const response = await generateResponse(inputText, userId);
-    res.send(response);
+  const {inputPrompt, inputText} = req.body;
+  try {
+    console.log('Sending request to OpenAI API...');
+    const result = await openai.createCompletion({
+      model: "text-davinci-003",
+      prompt: `${inputPrompt} : ${inputText}`,
+      max_tokens: 1024,
+      n: 1,
+      stop: null,
+      temperature: 0.7,
+    });
+
+    // generated output
+    const generatedParagraph = result.data.choices[0].text.trim();
+    //console.log(generatedParagraph);
+    
+    const gptResponse = new GPTModel({
+      prompt: inputPrompt,
+      input: inputText,
+      output: generatedParagraph,
+      userId: req.user._id,
+    });
+
+    await gptResponse.save();
+
+    res.render('generated-paragraph', { paragraph: generatedParagraph });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Error generating paragraph. Please try again later.');
+  }
+});
+
+router.post('/history', async (req, res) => {
+
 });
 
 module.exports = router;
