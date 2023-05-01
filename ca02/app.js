@@ -106,7 +106,18 @@ app.get('/about',
   (req,res,next) => {
     res.render('about');
   }
-)
+);
+
+app.get('/team', 
+  isLoggedIn,
+  (req,res,next) => {
+    res.render('team');
+  }
+);
+
+app.get('/team', (req,res,next) => {
+    res.render("team");
+})
 
 app.use(toDoRouter);
 app.use(weatherRouter);
