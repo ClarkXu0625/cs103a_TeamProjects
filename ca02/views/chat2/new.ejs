@@ -4,11 +4,11 @@
     <h1>Chat with ChatGPT</h1>
     <form id="chatForm" method="post" action="/chat2">
         <label for="inputPrompt">Enter your Prompt:</label>
-        <input type="text" name="inputPrompt" id="inputPrompt" placeholder="Leave blank if no prompt"><br>
+        <input type="text" name="inputPrompt" id="inputPrompt" placeholder="Leave it blank if you want to questions"><br>
 
         <label for="inputText">Enter your message:</label>        
-        <input type="text" name="inputText" id="inputText" required>
-        <br><button type="submit">Send</button>
+        <input type="text" name="inputText" id="inputText" placeholder="Ask a question or leave the text to be processed" required>
+        <br><button type="submit">Send To ChatGPT</button>
     </form>
     <div id="response" class="response"></div>
 
