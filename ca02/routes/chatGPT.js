@@ -2,9 +2,10 @@ const GPTModel = require('../models/GPT');
 const express = require('express');
 const router = express.Router();
 const { Configuration, OpenAIApi } = require("openai");
+require('dotenv').config();
 
 const configuration = new Configuration({
-  apiKey: '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',
+  apiKey: config.API_KEY,
 });
 const openai = new OpenAIApi(configuration);
 
