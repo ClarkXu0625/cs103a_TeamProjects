@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Chat History</title>
+  <title>Chats by Prompt - <%= group %></title>
   <style>
     table {
       border-collapse: collapse;
@@ -18,11 +18,10 @@
   </style>
 </head>
 <body>
-  <h1>Chat History</h1>
+  <h1>Chats for Prompt: <%= group %></h1>
   <table>
     <thead>
       <tr>
-        <th>Prompt</th>
         <th>Input</th>
         <th>Output</th>
       </tr>
@@ -30,13 +29,11 @@
     <tbody>
       <% chats.forEach(chat => { %>
         <tr>
-          <td><%= chat.prompt %></td>
           <td><%= chat.input %></td>
           <td><%= chat.output %></td>
         </tr>
       <% }); %>
     </tbody>
   </table>
-  <section><a href="/history/byPrompt">Show Unique Prompts</a></section>
 </body>
 </html>

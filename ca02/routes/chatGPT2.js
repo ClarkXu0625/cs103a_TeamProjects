@@ -9,7 +9,7 @@ const configuration = new Configuration({
 });
 const openai = new OpenAIApi(configuration);
 
-router.get('/chat2', async (req, res) => {
+router.get('/chat2', isLoggedIn, async (req, res) => {
   try {
     const previousResponses = await GPTModel.find({ userId: req.user._id });
     res.render("chat2/new");
@@ -22,7 +22,7 @@ router.get('/chat2', async (req, res) => {
 // Get the prompt and input message from new.ejs
 // Sending message to GPT to generate output
 // Save the output into database to call later.
-router.post('/chat2', async (req, res) => {
+router.post('/chat2', isLoggedIn, async (req, res) => {
   const {inputPrompt, inputText} = req.body;
   try {
     console.log('Sending request to OpenAI API...');
@@ -37,7 +37,6 @@ router.post('/chat2', async (req, res) => {
 
     // generated output
     const generatedParagraph = result.data.choices[0].text.trim();
-    //console.log(generatedParagraph);
     
     const gptResponse = new GPTModel({
       prompt: inputPrompt,
@@ -48,15 +47,42 @@ router.post('/chat2', async (req, res) => {
 
     await gptResponse.save();
 
-    res.render('generated-paragraph', { paragraph: generatedParagraph });
+    res.render('chat2/output', { paragraph: generatedParagraph });
   } catch (error) {
     console.error(error);
     res.status(500).send('Error generating paragraph. Please try again later.');
   }
 });
 
-router.post('/history', async (req, res) => {
+router.get('/history', isLoggedIn, async (req, res) => {
+  try {
+    const userId = req.user._id;
+    const chats = await GPTModel.find({ userId: userId }).sort({ _id: -1 });
+    res.render('chat2/history', { chats });
+  } catch (error) {
+    res.status(500).send('Error retrieving chat history');
+  }
+});
 
+router.get('/history/byPrompt', async (req, res) => {
+  try {
+    const userId = req.user._id;
+    const uniquePrompts = await GPTModel.distinct('prompt', { userId: userId });
+    res.render('chat2/groupByPrompt', { uniquePrompts });
+  } catch (error) {
+    res.status(500).send('Error retrieving unique prompts');
+  }
+});
+
+router.get('/history/chatByPrompt/:group', async (req, res) => {
+  try {
+    const userId = req.user._id;
+    const group = req.params.group;
+    const chats = await GPTModel.find({ userId: userId, prompt: group });
+    res.render('chat2/chatsByPrompt', { chats, group });
+  } catch (error) {
+    res.status(500).send('Error retrieving chats by prompt');
+  }
 });
 
 module.exports = router;
