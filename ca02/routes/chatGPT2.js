@@ -2,12 +2,12 @@ const express = require('express');
 const axios = require('axios');
 const GPTModel = require('../models/GPT');
 const router = express.Router();
-const baseURL = 'https://api.openai.com/v1/engines/davinci-codex/completions';
-const apiKey = "you key"
+const baseURL = "you key";
+const apiKey = "";
 
 
 /*const chatGPT = async (inputText, userId) => {
-    
+
     const instance = axios.create({
         headers: {
             'Content-Type': 'application/json',
@@ -31,7 +31,7 @@ const apiKey = "you key"
         console.error('Error calling ChatGPT API:', error);
         output = 'Sorry, an error occurred while processing your request.';
     }
-  
+
     // Save the output to the database
     const newEntry = new GPTModel({
         prompt: 'ChatGPT',
@@ -48,7 +48,7 @@ const apiKey = "you key"
 const generateResponse = async (prompt) => {
     const apiKey = "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"; // Replace with your valid API key
     const baseURL = 'https://api.openai.com/v1/engines/davinci-codex/completions';
-  
+
     // Set up the payload for the GPT-3 API
     const payload = {
       prompt: prompt,
@@ -58,7 +58,7 @@ const generateResponse = async (prompt) => {
       frequency_penalty: 0,
       presence_penalty: 0,
     };
-  
+
     try {
       const response = await fetch(baseURL, {
         method: 'POST',
@@ -68,11 +68,11 @@ const generateResponse = async (prompt) => {
         },
         body: JSON.stringify(payload),
       });
-  
+
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
-  
+
       const data = await response.json();
       const output = data.choices[0].text;
       return output;
