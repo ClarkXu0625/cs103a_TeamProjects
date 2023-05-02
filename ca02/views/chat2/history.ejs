@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Chat History</title>
+  <style>
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+    th, td {
+      border: 1px solid #dddddd;
+      text-align: left;
+      padding: 8px;
+    }
+    th {
+      background-color: #f2f2f2;
+    }
+  </style>
+</head>
+<body>
+  <h1>Chat History</h1>
+  <section><a href="/history/byPrompt">Show Unique Prompts</a></section> <br>
+  <table>
+    <thead>
+      <tr>
+        <th>Prompt</th>
+        <th>Input</th>
+        <th>Output</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% chats.forEach(chat => { %>
+        <tr>
+          <td><%= chat.prompt %></td>
+          <td><%= chat.input %></td>
+          <td><%= chat.output %></td>
+        </tr>
+      <% }); %>
+    </tbody>
+  </table>
+  
+</body>
+</html>
