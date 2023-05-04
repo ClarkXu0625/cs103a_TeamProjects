@@ -18,7 +18,13 @@
   </style>
 </head>
 <body>
-  <h1>Chats for Prompt: <%= group %></h1>
+  <h1><% if (group === "no prompt") { %>
+    Chat for Empty Prompt
+  <% } else { %>
+    Chats for Prompt: <%= group %>
+  <% } %> </h1>
+
+  
   <table>
     <thead>
       <tr>

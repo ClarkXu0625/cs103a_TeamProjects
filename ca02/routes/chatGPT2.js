@@ -37,15 +37,29 @@ router.post('/chat2', isLoggedIn, async (req, res) => {
 
     // generated output
     const generatedParagraph = result.data.choices[0].text.trim();
-    
-    const gptResponse = new GPTModel({
-      prompt: inputPrompt,
-      input: inputText,
-      output: generatedParagraph,
-      userId: req.user._id,
-    });
 
-    await gptResponse.save();
+    if (inputPrompt=== "") {
+      const gptResponse = new GPTModel({
+        prompt: "no prompt",
+        input: inputText,
+        output: generatedParagraph,
+        userId: req.user._id,
+      });
+  
+      await gptResponse.save();
+
+    } else {
+      const gptResponse = new GPTModel({
+        prompt: inputPrompt,
+        input: inputText,
+        output: generatedParagraph,
+        userId: req.user._id,
+      });
+  
+      await gptResponse.save();
+    }
+    
+    
 
     res.render('chat2/output', { paragraph: generatedParagraph });
   } catch (error) {
@@ -77,7 +91,7 @@ router.get('/history/byPrompt', async (req, res) => {
 router.get('/history/chatByPrompt/:group', async (req, res) => {
   try {
     const userId = req.user._id;
-    const group = req.params.group;
+    var group = req.params.group;
     const chats = await GPTModel.find({ userId: userId, prompt: group });
     res.render('chat2/chatsByPrompt', { chats, group });
   } catch (error) {
